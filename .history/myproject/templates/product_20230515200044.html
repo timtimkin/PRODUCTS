@@ -1,0 +1,19 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'flatpages/default.html' %} 
+ 
+<!-- Название у нас будет proudcts -->
+{% block title %}
+   Products
+{% endblock title %}
+ 
+<!-- В контенте на странице мы выводим сам товар, айди которого было передано в адрес -->
+{% block content %}
+
+      {% if products %} <!-- Выводим товары только если они есть с помощью тега if -->
+         <h1><p align="center">{{ products }}</p></h1>
+      {% else %} <!-- Если товаров нет, то говорим что товаров нет ;) -->
+        <h2><p align="center">Товаров нет!</p></h2>
+      {% endif %}
+
+<h1><p align="center">{{ product }}</p></h1>
+{% endblock content %}

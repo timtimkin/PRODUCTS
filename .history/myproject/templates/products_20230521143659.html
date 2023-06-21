@@ -1,0 +1,48 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'flatpages/default.html' %} 
+ 
+<!-- Название у нас будет proudcts -->
+
+{% block title %}
+Products
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим все товары -->
+{% block content %}
+<h1><p align="center">Все товары</p></h1>
+<h3><p align="center">{{ time_now|date:'d M Y' }}</p></h3> <!-- Здесь мы применяем фильтр date. Он очень похож на метод strftime у даты. С его помощью мы можем выводить дату в нужном нам формате -->
+    <hr>
+   
+    {% if products %}
+        {% for p in products %}
+            <h3><p align="center">{{ p.category }} - {{ p.name }} - {{ p.price }} руб.</p></h3>
+        {% endfor %}
+    {% else %} <!-- Если товаров нет, то говорим что товаров нет ;) -->
+        <h2><p align="center">Товаров нет!</p></h2>
+    {% endif %}
+
+{% if is_paginated %}
+ {% if page_obj.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ page_obj.previous_page_number }}"><<<</a>
+    {% endif %}
+ 
+    <!-- Показываем только текущую страницу и ближайшие к ней, чтобы список не тянулся и не захламлял страницу -->
+    {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+            <a>{{ num }}</a>
+        {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            <a href="?page={{ num }}">{{ num }}</a>
+        {% endif %}
+    {% endfor %}
+ 
+    <!-- Если есть следующая страница, то даём ссылку на неё и на самую последнюю страницу -->
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">>>></a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+    {% endif %}
+ 
+{% endif %}
+
+{% endblock content %}
+</p>
